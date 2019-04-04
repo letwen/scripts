@@ -18,7 +18,7 @@ if `cat ${path}/host | grep -Po "[ ]${host}[ ]" >> /tmp/control.log`;then
 	Key="${path}/key/${host}"
 	pre="ssh -p ${Port} -i ${Key} ${User}@${Host}"
 elif [[ ${host} == 'add' ]];then
-	for pkgname in `echo 'sshpass epel-release'`;do
+	for pkgname in `echo 'epel-release sshpass'`;do
 		if rpm -qa | grep ${pkgname} >> /tmp/control.log;then
 			echo "${pkgname} has been installed"
 		else
@@ -63,21 +63,14 @@ host参数列表
 	reboot：重启服务器
 
 	shutdown：关闭服务器
+	
+	nginx：nginx相关操作
+		格式：control host nginx {install|version|start|stop|enable|disable|reload|check|restart}
+		目前install功能不受支持
 '
 else
 	echo "配置文件中没有找到相应的主机"
 fi
-
-source ${path}/f_lib/ssrconfig.sh
-source ${path}/f_lib/yum.sh
-source ${path}/f_lib/ssrrun.sh
-source ${path}/f_lib/login.sh
-source ${path}/f_lib/firewalld.sh
-source ${path}/f_lib/tcp.sh
-source ${path}/f_lib/udp.sh
-source ${path}/f_lib/Hostname.sh
-source ${path}/f_lib/Reboot.sh
-source ${path}/f_lib/Shutdown.sh
 
 #System must be loaded last
 source ${path}/f_lib/System.sh
