@@ -1,0 +1,18 @@
+   download.sh
+	从官网快速解析地址并下载源码包
+	目前支持ngin、php
+
+   install_nginx_php_bbr.sh
+	快速安装nginx、php、googlei bbr
+	一键安装nginx、php、bbr、升级内核并自动拷贝配置
+	不会删除上一个版本的配置，会在这个当前的根目录下创建一个当前版本的默认配置文件的压缩包
+	如果你上个版本没有使用这个脚本安装或者没有遵从脚本内的配置，这个功能不会触发，不用担心，只是这个功能不会触发而已
+	自动化安装nginx和php时需注意，过高或过低的版本会出现不适配的现象,关于这点你可以通过修改脚本内的配置变量来实现适配
+	升级内核时请注意，可能会出现安装完成后没有指定启动版本，关于这点可以通过手动执行的方式来修改：
+		egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \'
+		grub2-set-default 最新版本的位置（注意从0开始）
+	对于快速安装nginx添加了一个模块，用于快速安装ldap模块（需要先安装配置好ldap）
+		install_nginx_php_bbr.sh nginx 版本号 g ldap
+
+   ddos_install.sh
+	快速安装开源ddos防火墙项目，使用ddos_installddos_install.sh install来安装
