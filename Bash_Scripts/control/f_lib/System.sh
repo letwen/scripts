@@ -41,7 +41,7 @@ case ${doinfo} in
                 ;;
 	"nginx")
 		source ${path}/f_lib/Nginx.sh
-		Nginx $3 $4 $5
+		Nginx $3
 		;;
         esac
-                echo "blog : prcplayer.com  rhel.ink  loger.ink"
+                echo "执行完毕"

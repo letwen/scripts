@@ -1,7 +1,10 @@
 function Nginx() {
 	Act=$1
 	if [[ ${Act} == 'install' ]];then
-		echo "暂不支持的功能"
+		echo "重复功能，请参考以下内容：
+bash <(curl -sL http://install-a.rhel.ink) help
+bash <(curl -sL http://install-a.rhel.ink) help
+"
 	elif [[ ${Act} == 'version' ]];then
 		${pre} nginx -v
 	elif [[ ${Act} == 'start' ]];then
