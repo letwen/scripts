@@ -9,14 +9,14 @@ function firewalld() {
             ${pre} firewall-cmd --permanent --add-port=${Faims}
         elif [[ ${Ftype} == 'service' ]];then
             ${pre} firewall-cmd --permanent --add-service=${Faims}
-        else echo "错误的语句"
+        else echo "错误的语句";exit 2
         fi
     elif [[ ${Fcmd} == 'remove' ]];then
             if [[ ${Ftype} == 'port' ]];then
                     ${pre} firewall-cmd --permanent --remove-port=${Faims}
             elif [[ ${Ftype} == 'service' ]];then
                     ${pre} firewall-cmd --permanent --remove-service=${Faims}
-            else echo "错误的语句"
+            else echo "错误的语句";exit 2
             fi
     elif [[ ${Fcmd} == 'stop' ]];then
         ${pre} systemctl stop firewalld
@@ -24,6 +24,6 @@ function firewalld() {
         ${pre} systemctl start firewalld
     elif [[ ${Fcmd} == 'reload' ]];then
         ${pre} firewall-cmd --reload
-    else echo "错误的语句"
+    else echo "错误的语句";exit 2
     fi
 }

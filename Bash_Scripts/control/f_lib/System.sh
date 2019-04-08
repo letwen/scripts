@@ -43,5 +43,9 @@ case ${doinfo} in
 		source ${path}/f_lib/Nginx.sh
 		Nginx $3
 		;;
+	"user")
+		source ${path}/f_lib/User.sh
+		User $3 $4 $5
+		;;
         esac
                 echo "执行完毕"

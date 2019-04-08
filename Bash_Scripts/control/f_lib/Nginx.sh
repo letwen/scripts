@@ -21,5 +21,6 @@ bash <(curl -sL http://install-a.rhel.ink) help
 		${pre} nginx -t
 	elif [[ ${Act} == 'restart' ]];then
 		${pre} systemctl restart nginx
+	else echo "错误的语句";exit 2
 	fi
 }

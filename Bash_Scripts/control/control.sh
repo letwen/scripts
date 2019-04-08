@@ -6,9 +6,9 @@ if `cat ${path}/host | grep -Po "[ ]${host}[ ]" >> /tmp/control.log`;then
 	chmod 700 ${path}/key
 	chmod 600 ${path}/key/*
 	chown root.root ${path}/key -R
-	Port=`cat ${path}/host | grep ${host} | awk 'FS=" "{print $3}'`
-	Host=`cat ${path}/host | grep ${host} | awk 'FS=" "{print $2}'`
-	User=`cat ${path}/host | grep ${host} | awk 'FS=" "{print $4}'`
+	Port=`cat ${path}/host | grep -P "[ ]${host}[ ]" | awk 'FS=" "{print $3}'`
+	Host=`cat ${path}/host | grep -P "[ ]${host}[ ]" | awk 'FS=" "{print $2}'`
+	User=`cat ${path}/host | grep -P "[ ]${host}[ ]" | awk 'FS=" "{print $4}'`
 	Key="${path}/key/${host}"
 	pre="ssh -p ${Port} -i ${Key} ${User}@${Host}"
 elif [[ ${host} == 'add' ]];then
@@ -70,13 +70,19 @@ host参数列表
 	reboot：重启服务器
 
 	shutdown：关闭服务器
+
+	user：创建或删除其他用户
+		格式：control host user {add|del} username {[public_key]|[dir]}
+		#在add时使用public_key参数指定公钥，不指定则使用ssh_keygen目录下的authorized_keys_user文件
+		#public_key是指公钥,不要输入public_key,而是输入公钥路径
+		#在del时使用dir参数来说明要删除用户主目录，默认不删除主目录
 	
 	nginx：nginx相关操作
 		格式：control host nginx {install|version|start|stop|enable|disable|reload|check|restart}
 		#支持管理功能，但目前仓库内已有安装脚本，故此不提供安装功能
 '
 else
-	echo "配置文件中没有找到相应的主机"
+	echo "配置文件中没有找到相应的主机";exit 2
 fi
 
 #System must be loaded last
