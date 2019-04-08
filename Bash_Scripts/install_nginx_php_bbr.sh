@@ -192,6 +192,9 @@ if [[ $1 == '-h' ]];then
 安装nginx和php的格式：install_nginx_php_bbr.sh {nginx|php} [version] [g]
 	version指定安装的版本，默认安装版本为nginx-1.14.2，php-7.2.16
 	支持的版本可以到项目目录下查看
+	如果带有g参数则表名使用github的仓库来安装，不指定则默认使用aliyun仓库
+	支持ldap模块的安装，如果需要安装ldap模块则需要指定g参数，然后在g参数之后添加ldap参数
+	
 
 安装google-bbr：需要先升级内核，然后安装bbr
 	升级内核使用kerup参数，升级完成后需要手动指定版本并重启
