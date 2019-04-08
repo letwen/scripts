@@ -65,7 +65,7 @@ host参数列表
 		只有当指定{install|remove}时需要指定包名，每次至多可以输入5个包名
 
 	hostanme：配置主机名
-		格式：control hostname 主机名
+		格式：control host hostname 主机名
 
 	reboot：重启服务器
 
