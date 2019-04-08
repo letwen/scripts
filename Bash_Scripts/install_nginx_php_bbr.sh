@@ -198,7 +198,7 @@ if [[ $1 == '-h' ]];then
 
 安装google-bbr：需要先升级内核，然后安装bbr
 	升级内核使用kerup参数，升级完成后需要手动指定版本并重启
-		egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \\\' #查询现有的内核版本
+		egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \\' #查询现有的内核版本
 		grub2-set-default 位置		#位置从0开始
 	安装bbr：使用bbr参数，安装完成后需要重启
 "
