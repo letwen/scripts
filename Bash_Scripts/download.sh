@@ -3,6 +3,8 @@
 #Creater and Editer : admin@prcplayer.com
 #Last edit time : 2019-02-22 17:44
 
+phpversion='new'	#Set to 'new' to retrieve the new version, set to 'old' to retrieve the old version
+
 function nginxurl() {
 	export nginxdownsuffix=`curl -sL https://nginx.org/en/download.html | grep -Po "(?<=href\=\")/download[^\"]+"`
 	export nginxdownprefix='https://nginx.org'
@@ -49,7 +51,11 @@ function nginx() {
 }
 
 function phpurl() {
-	export phpdownsuffix=`curl -sL http://php.net/downloads.php | grep -Po "(?<=href\=\")\/get[^\"]+" | grep -v "\/get-involved"`
+	if [[ ${phpversion} == 'new' ]];then
+		export phpdownsuffix=`curl -sL https://php.net/downloads.php | grep -Po "(?<=href\=\")\/distributions[^\"]+" | grep -v "\/get-involved"`
+	elif [[ ${phpversion} == 'old' ]];then
+		export phpdownsuffix=`curl -sL https://php.net/releases/ | grep -Po "(?<=href\=\")\/distributions[^\"]+" | grep -v "\/get-involved"`
+	else echo 'Wrong parameter setting';fi
 	export phpdownprefix='https://php.net'
 }
 
@@ -58,18 +64,13 @@ function php() {
 	if [[ ${a} == 'list' ]] || [[ ${a} == '' ]];then
 		for list in ${phpdownsuffix};do echo $list | grep -Po "php-[^$][a-zA-Z0-9\.]+";done
 	elif [[ ${a} == 'node' ]];then
-		for list in ${phpdownsuffix};do
-			pkgn=`echo $list | grep -Po "php-[^$][a-zA-Z0-9\.]+"`
-			curl -sL https://php.net/get/${pkgn}/from/a/mirror | grep -Po "[a-z][a-z][0-9]" | fgrep -v bz2 | egrep -v "[a-z][4-9]+" | uniq
-			exit 0
-		done
+		echo 'I didn‘t see the node selection in php.net this time. Maybe you can still try jp2 and hk, etc. Maybe php.net will automatically match the optimal line?'
 	elif [[ ${a} == 'xz' ]];then
 		for list in ${phpdownsuffix};do
 			pkgn=`echo ${list} | grep -Po "[0-9]+\.[0-9]+\.[0-9]+\.tar\.xz"`
 			if [[ ${pkgn} == ${b}.tar.xz ]];then
-				echo "Source package detected,Now use ${phpdownloaddc:-jp2} node to download"
-				phprcurl=`echo "https://php.net${list}"`
-				phpdownloadurl=`curl -sL ${phprcurl} | grep -Po "(?<=href\=\")http\:\/\/${phpdownloaddc:-jp2}[^\"]+"`
+				echo "Source package detected,Now use ${phpdownloaddc:-www} node to download"
+				phpdownloadurl="https://${phpdownloaddc:-www}.php.net${list}"
 				if [[ ${c} != '' ]];then wget -P ${c} ${phpdownloadurl} -O ${c}/php-${pkgn} && exit 0
 						else wget ${phpdownloadurl} -O php-${pkgn} && exit 0
 				fi
@@ -81,9 +82,8 @@ function php() {
 		for list in ${phpdownsuffix};do
 			pkgn=`echo ${list} | grep -Po "[0-9]+\.[0-9]+\.[0-9]+\.tar\.gz"`
 			if [[ ${pkgn} == ${b}.tar.gz ]];then
-				echo "Source package detected,Now use ${phpdownloaddc:-jp2} node to download"
-				phprcurl=`echo "https://php.net${list}"`
-				phpdownloadurl=`curl -sL ${phprcurl} | grep -Po "(?<=href\=\")http\:\/\/${phpdownloaddc:-jp2}[^\"]+"`
+				echo "Source package detected,Now use ${phpdownloaddc:-www} node to download"
+				phpdownloadurl="https://${phpdownloaddc:-www}.php.net${list}"
 				if [[ ${c} != '' ]];then wget -P ${c} ${phpdownloadurl} -O ${c}/php-${pkgn} && exit 0
 						else wget ${phpdownloadurl} -O php-${pkgn} && exit 0
 				fi
@@ -95,9 +95,8 @@ function php() {
 		for list in ${phpdownsuffix};do
 			pkgn=`echo ${list} | grep -Po "[0-9]+\.[0-9]+\.[0-9]+\.tar\.bz2"`
 			if [[ ${pkgn} == ${b}.tar.bz2 ]];then
-				echo "Source package detected,Now use ${phpdownloaddc:-jp2} node to download"
-				phprcurl=`echo "https://php.net${list}"`
-				phpdownloadurl=`curl -sL ${phprcurl} | grep -Po "(?<=href\=\")http\:\/\/${phpdownloaddc:-jp2}[^\"]+"`
+				echo "Source package detected,Now use ${phpdownloaddc:-www} node to download"
+				phpdownloadurl="https://${phpdownloaddc:-www}.php.net${list}"
 				if [[ ${c} != '' ]];then wget -P ${c} ${phpdownloadurl} -O ${c}/php-${pkgn} && exit 0
 						else wget ${phpdownloadurl} -O php-${pkgn} && exit 0
 				fi
@@ -109,9 +108,8 @@ function php() {
 		for list in ${phpdownsuffix};do
 			pkgn=`echo ${list} | grep -Po "php-[^$][a-zA-Z0-9\.]+"`
 			if [[ ${pkgn} == ${a} ]];then
-				echo "Source package detected,Now use ${phpdownloaddc:-jp2} node to download"
-				phprcurl=`echo "https://php.net${list}"`
-				phpdownloadurl=`curl -sL ${phprcurl} | grep -Po "(?<=href\=\")http\:\/\/${phpdownloaddc:-jp2}[^\"]+"`
+				echo "Source package detected,Now use ${phpdownloaddc:-www} node to download"
+				phpdownloadurl="https://${phpdownloaddc:-www}.php.net${list}"
 				if [[ ${b} != '' ]];then wget -P ${b} ${phpdownloadurl} -O ${b}/${pkgn} && exit 0
 						else wget ${phpdownloadurl} -O ${pkgn} && exit 0
 				fi
@@ -154,14 +152,15 @@ nginx parameter :
 	
 php parameter :
 	list or null : Search all source packages available on php.net
-	node : View the available download nodes,the default node is jp2
-	Source_package_name(Such as:php-7.1.26.tar.xz) [path [node]]: Download the specified source package,Default download to current path,The default download node is jp2
-	xz version(Such as:7.1.26) [path [node]] : Download the specified version of the xz package,Default download to current path,The default download node is jp2
-	gz version(Such as:7.1.26) [path [node]] : Download the specified version of the gz package,Default download to current path,The default download node is jp2
-	bz2 version(Such as:7.1.26) [path [node]] : Download the specified version of the bz2 package,Default download to current path,The default download node is jp2
+	node : View the available download nodes,the default node is www
+	Source_package_name(Such as:php-7.1.26.tar.xz) [path [node]]: Download the specified source package,Default download to current path,The default download node is www
+	xz version(Such as:7.1.26) [path [node]] : Download the specified version of the xz package,Default download to current path,The default download node is www
+	gz version(Such as:7.1.26) [path [node]] : Download the specified version of the gz package,Default download to current path,The default download node is www
+	bz2 version(Such as:7.1.26) [path [node]] : Download the specified version of the bz2 package,Default download to current path,The default download node is www
 	
-I went to learn python, this script is no longer maintained.
 	
+php.net changed its rules, now no matter which download node you choose will eventually jump to www, I added a built-in variable, you can modify it to new or old to get different versions of php
+
 Contact Me:
 	Email : admin@prcplayer.com
 	Blog : prcplayer.com rhel.ink loger.ink
