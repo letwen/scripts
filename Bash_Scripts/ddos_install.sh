@@ -16,7 +16,7 @@ do
 	else
 		if [[ $rely == "grepcidr" ]];then
 			echo "Installing ${rely}"
-			if yum install ${grepcidr_url} -y --skip-broken &>> ${log_file};then
+			if yum install ${grepcidr_url} -y &>> ${log_file};then
 			echo "${rely} installation completed";else
 			echo "The installation of ${rely} failed. Check the log file ${log_file}" && exit 2;fi
 		else
