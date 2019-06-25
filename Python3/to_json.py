@@ -23,6 +23,6 @@ def tf_json(j_name,info,dsp="no") :
     finally :
         j_file_open.close()
         if dsp == "yes" :
-            return json.dumps(info)
+            return json.dumps(info,ensure_ascii=False)
         else :
             return 'no display'
