@@ -14,8 +14,8 @@ def tf_json(j_name,info,dsp="no") :
         else :
             print("successful creation of json folder")
     try :
-        j_file_open=open(j_file,mode='w+')
-        json.dump(info,j_file_open)
+        j_file_open=open(j_file,mode='w+',encoding="utf-8")
+        json.dump(info,j_file_open,ensure_ascii=False)
     except :
         return 'Error, failed to create or write file'
     else :
