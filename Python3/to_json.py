@@ -15,7 +15,7 @@ def tf_json(j_name,info,dsp="no") :
             print("successful creation of json folder")
     try :
         j_file_open=open(j_file,mode='w+',encoding="utf-8")
-        json.dump(info,j_file_open,ensure_ascii=False)
+        json.dump(info,j_file_open,ensure_ascii=False,sort_keys=True,indent=4)
     except :
         return 'Error, failed to create or write file'
     else :
@@ -23,6 +23,6 @@ def tf_json(j_name,info,dsp="no") :
     finally :
         j_file_open.close()
         if dsp == "yes" :
-            return json.dumps(info,ensure_ascii=False)
+            return json.dumps(info,ensure_ascii=False,sort_keys=True,indent=4)
         else :
             return 'no display'
