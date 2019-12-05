@@ -1,5 +1,5 @@
 #!/bin/bash
-echo -e "this is too old.\nso,don't use."
+echo -e "this is too old.\nso,don't use." && exit 2
 function check_rely() {
 rely_list="epel-release git net-tools bind-utils tcpdump dsniff grepcidr"
 grepcidr_url='ftp://ftp.pbone.net/mirror/li.nux.ro/download/nux/dextop/el7Workstation/x86_64/grepcidr-2.0-1.el7.nux.x86_64.rpm'

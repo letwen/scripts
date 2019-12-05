@@ -1,9 +1,9 @@
    download.sh
 	从官网快速解析地址并下载源码包
-	目前支持ngin、php
+	目前支持nginx、php
 
    install_nginx_php_bbr.sh
-	快速安装nginx、php、googlei bbr
+	快速安装nginx、php、google bbr
 	一键安装nginx、php、bbr、升级内核并自动拷贝配置
 	不会删除上一个版本的配置，会在这个当前的根目录下创建一个当前版本的默认配置文件的压缩包
 	如果你上个版本没有使用这个脚本安装或者没有遵从脚本内的配置，这个功能不会触发，不用担心，只是这个功能不会触发而已
@@ -15,6 +15,7 @@
 		install_nginx_php_bbr.sh nginx 版本号 g ldap
 
    ddos_install.sh
+	过旧不推荐使用
 	快速安装开源ddos防火墙项目，使用ddos_installddos_install.sh install来安装
 
    control项目目录
