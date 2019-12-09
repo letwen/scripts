@@ -1,0 +1,14 @@
+<storehouse>
+    <goods category="fish">
+        <title>淡水鱼</title>
+        <name>鲫鱼</name>
+        <amount>18</amount>
+        <price>8</price>
+    </goods>
+    <goods category="fruit">
+        <title>温带水果</title>
+        <name>猕猴桃</name> 
+        <amount>10</amount>
+        <price>10</price>
+    </goods>
+</storehouse>

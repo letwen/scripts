@@ -1,2 +1,3 @@
+rm -rf Z:/Bash_Scripts  Z:/Python3
 cp -rf ./Bash_Scripts Z:/
 cp -rf ./Python3 Z:/
